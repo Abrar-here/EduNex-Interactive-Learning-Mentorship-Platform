@@ -2,20 +2,22 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "student",
+  });
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        name,
-        email,
-        password,
-      });
-      setMessage(res.data.message);
+      const res = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        form
+      );
+      setMessage(res.data.message || "Registered successfully ✅");
     } catch (err) {
       setMessage(err.response?.data?.message || "Error registering");
     }
@@ -34,8 +36,8 @@ export default function Register() {
               type="text"
               className="form-control"
               placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
             />
           </div>
@@ -44,8 +46,8 @@ export default function Register() {
               type="email"
               className="form-control"
               placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
             />
           </div>
@@ -54,10 +56,21 @@ export default function Register() {
               type="password"
               className="form-control"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
             />
+          </div>
+          <div className="mb-3">
+            <select
+              className="form-control"
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+            >
+              <option value="student">Student</option>
+              <option value="instructor">Instructor</option>
+              {/* Removed admin option */}
+            </select>
           </div>
           <button type="submit" className="btn btn-primary w-100">
             Register

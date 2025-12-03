@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
+  const { login } = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -13,7 +16,8 @@ export default function Login() {
         email,
         password,
       });
-      setMessage(res.data.message);
+      login(res.data); // save token + role
+      setMessage("Login successful ✅");
     } catch (err) {
       setMessage(err.response?.data?.message || "Error logging in");
     }
@@ -47,7 +51,7 @@ export default function Login() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-success w-100">
+          <button type="submit" className="btn btn-primary w-100">
             Login
           </button>
         </form>
