@@ -1,32 +1,135 @@
+// frontend/src/App.js
 import "./App.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import { useState } from "react";
+import Profile from "./components/Profile"; // Edit Profile
+import ViewProfile from "./components/ViewProfile"; // View Profile
+import StudentPage from "./components/StudentPage";
+import InstructorPage from "./components/InstructorPage";
+import AdminPage from "./components/AdminPage";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const [showRegister, setShowRegister] = useState(true);
+  const { auth, logout } = useContext(AuthContext);
 
   return (
-    <div className="App">
-      <div className="text-center my-3">
-        <button
-          className={`btn me-2 ${
-            showRegister ? "btn-primary" : "btn-outline-primary"
-          }`}
-          onClick={() => setShowRegister(true)}
-        >
-          Register
-        </button>
-        <button
-          className={`btn ${
-            !showRegister ? "btn-success" : "btn-outline-success"
-          }`}
-          onClick={() => setShowRegister(false)}
-        >
-          Login
-        </button>
-      </div>
-      {showRegister ? <Register /> : <Login />}
+    <BrowserRouter>
+      <Navigation auth={auth} logout={logout} />
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={!auth.user ? <Login /> : <Navigate to="/profile" />}
+        />
+        <Route
+          path="/register"
+          element={!auth.user ? <Register /> : <Navigate to="/profile" />}
+        />
+
+        {/* Protected Routes */}
+        <Route
+          path="/profile"
+          element={auth.user ? <Profile /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/profile/view"
+          element={auth.user ? <ViewProfile /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/student"
+          element={
+            auth.user?.role === "student" ? (
+              <StudentPage />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/instructor"
+          element={
+            auth.user?.role === "instructor" ? (
+              <InstructorPage />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            auth.user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// Separate navigation component
+function Navigation({ auth, logout }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Clear auth state
+    navigate("/"); // Programmatic redirect to login
+  };
+
+  return (
+    <div className="text-center my-3">
+      {!auth.user && (
+        <>
+          <Link to="/register" className="btn btn-primary me-2">
+            Register
+          </Link>
+          <Link to="/" className="btn btn-success me-2">
+            Login
+          </Link>
+        </>
+      )}
+
+      {auth.user && (
+        <>
+          {/* Profile Links */}
+          <Link to="/profile" className="btn btn-info me-2">
+            Edit Profile
+          </Link>
+          <Link to="/profile/view" className="btn btn-secondary me-2">
+            View Profile
+          </Link>
+
+          {/* Role-based Links */}
+          {auth.user.role === "student" && (
+            <Link to="/student" className="btn btn-warning me-2">
+              Student Page
+            </Link>
+          )}
+          {auth.user.role === "instructor" && (
+            <Link to="/instructor" className="btn btn-warning me-2">
+              Instructor Page
+            </Link>
+          )}
+          {auth.user.role === "admin" && (
+            <Link to="/admin" className="btn btn-danger me-2">
+              Admin Page
+            </Link>
+          )}
+
+          <button className="btn btn-dark" onClick={handleLogout}>
+            Logout
+          </button>
+        </>
+      )}
     </div>
   );
 }
