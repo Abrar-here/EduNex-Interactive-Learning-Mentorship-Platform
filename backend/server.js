@@ -16,8 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/courses", courseRoutes);
+app.use("/api/auth", authRoutes); // All auth routes prefixed with /api/auth
 
 // Test route
 app.get("/", (req, res) => {
