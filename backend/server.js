@@ -7,6 +7,8 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import courseRoutes from "./routes/courseRoutes.js"; // ✅ import courses
 
+import discussionRoutes from "./routes/discussionRoutes.js";
+
 dotenv.config();
 connectDB();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 // Routes
 app.use("/api/auth", authRoutes); // All auth routes prefixed with /api/auth
 app.use("/api/courses", courseRoutes); // ✅ mount course routes
+app.use("/api/discussions", discussionRoutes); 
 
 // Test route
 app.get("/", (req, res) => {

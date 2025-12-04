@@ -24,7 +24,7 @@ import StudentCourses from "./pages/StudentCourses";
 import CourseDetails from "./pages/CourseDetails";
 import MyCourses from "./pages/MyCourses";
 import EditCourse from "./pages/EditCourse";
-
+import CourseDiscussion from "./pages/CourseDiscussion";
 function App() {
   const { auth, logout } = useContext(AuthContext);
 
@@ -90,6 +90,11 @@ function App() {
         <Route path="/student/courses" element={<StudentCourses />} />
         <Route path="/student/courses/:id" element={<CourseDetails />} />
         <Route path="/student/my-courses" element={<MyCourses />} />
+        <Route
+          path="/student/courses/:id/discussion"
+          element={<CourseDiscussion />}
+            />
+
         <Route
           path="/instructor/course/:id/edit"
           element={
