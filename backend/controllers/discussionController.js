@@ -19,6 +19,21 @@ export const createQuestion = async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
+    const isEnrolled =
+      course.enrolledStudents &&
+      course.enrolledStudents.some(
+        (studentId) =>
+          studentId.toString() === req.user._id.toString()
+      );
+
+    if (!isEnrolled) {
+      return res
+        .status(403)
+        .json({
+          message: "You must be enrolled in this course to ask a question",
+        });
+    }
+
     const question = await Question.create({
       course: courseId,
       user: req.user._id,

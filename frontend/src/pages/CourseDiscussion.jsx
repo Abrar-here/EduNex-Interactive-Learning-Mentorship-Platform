@@ -19,6 +19,13 @@ export default function CourseDiscussion() {
   const [posting, setPosting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
+  const isEnrolled =
+  auth?.user &&
+  course?.enrolledStudents?.some(
+    (studentId) => studentId.toString() === auth.user.id
+  );
+
+
   // Fetch course details (to show title)
   useEffect(() => {
     const fetchCourse = async () => {
@@ -150,8 +157,8 @@ export default function CourseDiscussion() {
       {loadingCourse && <p>Loading course...</p>}
       {error && <div className="alert alert-danger">{error}</div>}
 
-      {/* Ask Question Form (students only) */}
-      {auth.user.role === "student" && (
+      {/* Ask Question Form (students only AND enrolled) */}
+      {auth.user.role === "student" && isEnrolled && (
         <div className="card mb-4">
           <div className="card-body">
             <h5 className="card-title">Ask a Question</h5>
@@ -190,6 +197,14 @@ export default function CourseDiscussion() {
           </div>
         </div>
       )}
+
+      {/* Info message for students who are NOT enrolled */}
+      {auth.user.role === "student" && !isEnrolled && (
+        <div className="alert alert-info mb-4">
+          You must enroll in this course to ask questions in the discussion.
+        </div>
+      )}
+
 
       {/* Questions List */}
       <div>
