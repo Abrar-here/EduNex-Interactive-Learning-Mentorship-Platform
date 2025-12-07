@@ -277,31 +277,6 @@ export default function CourseDetails() {
             ).toLocaleDateString()}`
           : "N/A"}
       </p>
-      <hr />
-      <h4>Important Dates</h4>
-
-      {course.endDate ? (
-        <div className="border rounded p-3 mb-3">
-          <p className="text-muted mb-1">
-            {new Date(course.endDate).toLocaleDateString("en-US", {
-              weekday: "short",
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </p>
-
-          <h6 className="mb-1">Course ends</h6>
-
-          <p className="mb-0 text-secondary">
-            After the course ends, the course content will be archived and no
-            longer active.
-          </p>
-        </div>
-      ) : (
-        <p>No important dates available.</p>
-      )}
-
       <p>
         <strong>Total Lessons:</strong> {course.lessons?.length || 0}
       </p>
