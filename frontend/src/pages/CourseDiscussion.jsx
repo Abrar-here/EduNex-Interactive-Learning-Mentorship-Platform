@@ -312,7 +312,7 @@ export default function CourseDiscussion() {
             <h5 className="card-title">Ask a Question</h5>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">Title (optional)</label>
+                <label className="form-label">Title</label>
                 <input
                   type="text"
                   className="form-control"
