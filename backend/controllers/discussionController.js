@@ -6,47 +6,79 @@ import Notification from "../models/Notification.js";
 // Create a new question for a specific course (student only)
 export const createQuestion = async (req, res) => {
   try {
-    const { courseId } = req.params;
     const { title, content } = req.body;
+    const courseId = req.params.courseId || req.body.courseId;
 
-    if (!content || content.trim() === "") {
+    if (!courseId) {
       return res
         .status(400)
-        .json({ message: "Question content is required" });
+        .json({ message: "courseId is required to create a question" });
     }
 
-    // Make sure course exists
-    const course = await Course.findById(courseId);
+    if (!title || !content) {
+      return res
+        .status(400)
+        .json({ message: "Title and content are required" });
+    }
+
+    // 1) Find the course and check enrollment
+    const course = await Course.findById(courseId).populate(
+      "enrolledStudents",
+      "_id"
+    );
+
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    const isEnrolled =
-      course.enrolledStudents &&
-      course.enrolledStudents.some(
-        (studentId) =>
-          studentId.toString() === req.user._id.toString()
-      );
+    const studentId = req.user._id || req.user.id;
+
+    const isEnrolled = course.enrolledStudents.some(
+      (s) => s._id.toString() === studentId.toString()
+    );
 
     if (!isEnrolled) {
-      return res
-        .status(403)
-        .json({
-          message: "You must be enrolled in this course to ask a question",
-        });
+      return res.status(403).json({
+        message: "You must be enrolled in this course to ask questions",
+      });
     }
 
+    // 2) Create the question
     const question = await Question.create({
       course: courseId,
-      user: req.user._id,
-      title: title?.trim() || "",
+      user: studentId,
+      title: title.trim(),
       content: content.trim(),
     });
 
-    // populate user basic info for immediate frontend use
-    await question.populate("user", "name role");
+    const populatedQuestion = await question.populate("user", "name role");
 
-    res.status(201).json(question);
+    // 3) 🔔 Notification: instructor gets alert when a student asks a question
+    try {
+      const instructorUserId =
+        course.instructor?._id || course.instructor;
+      const courseTitle = course.title || "your course";
+      const questionTitle = question.title || "a question";
+      const studentName = req.user?.name || "A student";
+
+      await Notification.create({
+        user: instructorUserId, // instructor gets this
+        type: "question_asked",
+        title: "New question in your course",
+        message: `${studentName} asked: "${questionTitle}" in "${courseTitle}".`,
+        link: `/instructor/courses/${course._id}/discussion?questionId=${question._id}`,
+        course: course._id,
+        question: question._id,
+      });
+    } catch (notifyErr) {
+      console.error(
+        "Error creating notification for question asked:",
+        notifyErr
+      );
+      // Do not fail the request if notification fails
+    }
+
+    res.status(201).json(populatedQuestion);
   } catch (error) {
     console.error("Error creating question:", error);
     res.status(500).json({ message: error.message });

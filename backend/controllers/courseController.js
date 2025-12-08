@@ -173,13 +173,47 @@ export const deleteLesson = async (req, res) => {
 // Enroll in a course
 export const enrollInCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    // populate instructor so we can notify them
+    const course = await Course.findById(req.params.id).populate(
+      "instructor",
+      "name email"
+    );
 
-    if (!course) return res.status(404).json({ message: "Course not found" });
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    let newlyEnrolled = false;
 
     if (!course.enrolledStudents.includes(req.user.id)) {
       course.enrolledStudents.push(req.user.id);
+      newlyEnrolled = true;
       await course.save();
+    }
+
+    // 🔔 Notify instructor only when this is a NEW enrollment
+    if (newlyEnrolled) {
+      try {
+        const instructorUserId =
+          course.instructor?._id || course.instructor;
+        const courseTitle = course.title || "your course";
+        const studentName = req.user?.name || "A student";
+
+        await Notification.create({
+          user: instructorUserId, // instructor gets this
+          type: "student_enrolled",
+          title: "New course enrollment",
+          message: `${studentName} enrolled in your course "${courseTitle}".`,
+          link: `/instructor/courses/${course._id}`,
+          course: course._id,
+        });
+      } catch (notifyErr) {
+        console.error(
+          "Error creating notification for enrollment:",
+          notifyErr
+        );
+        // don't block enrollment if notification fails
+      }
     }
 
     res.json({ message: "Enrolled successfully", course });
@@ -187,6 +221,7 @@ export const enrollInCourse = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Get logged-in student's courses
 export const getMyCourses = async (req, res) => {

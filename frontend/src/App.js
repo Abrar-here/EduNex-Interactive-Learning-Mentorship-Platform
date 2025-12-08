@@ -31,7 +31,8 @@ import StudentMyConsultations from "./pages/StudentMyConsultations";
 import StudentConsultationBooking from "./pages/StudentConsultationBooking";
 import InstructorConsultationSchedule from "./pages/InstructorConsultationSchedule";
 import InstructorTodayConsultations from "./pages/InstructorTodayConsultations";
-
+import NotificationsDropdown from "./components/NotificationsDropdown";
+import NotificationsPage from "./pages/NotificationsPage";
 
 function App() {
   const { auth, logout } = useContext(AuthContext);
@@ -178,8 +179,14 @@ function App() {
         <Route path="/courses/:courseId/add-lesson" element={<AddLesson />} />
         <Route path="/courses" element={<CourseList />} />
 
-        {/* Keep fallback route if needed */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* Notifications page */}
+        <Route
+          path="/notifications"
+          element={
+            auth.user ? <NotificationsPage /> : <Navigate to="/" />
+          }
+        />
+
         <Route
           path="/instructor/courses/:id"
           element={<InstructorCourseDetails />}
@@ -189,7 +196,11 @@ function App() {
           path="/instructor/courses/:id/add-lesson"
           element={<AddLesson />}
         />
+
+        {/* Keep fallback route LAST */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+
     </BrowserRouter>
   );
 }
@@ -259,6 +270,9 @@ function Navigation({ auth, logout }) {
               Admin Dashboard
             </Link>
           )}
+
+          {/* 🔔 Notifications button (for any logged-in user) */}
+          <NotificationsDropdown />
 
           <button className="btn btn-dark" onClick={handleLogout}>
             Logout

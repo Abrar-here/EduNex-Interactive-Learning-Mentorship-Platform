@@ -24,6 +24,8 @@ const notificationSchema = new Schema(
         "consultation_blocked",   // instructor turned off consultations
         "consultation_booked",    // a student booked a consultation
         "lesson_added",           // new lesson added in enrolled course
+        "student_enrolled",
+        "question_asked", 
       ],
       required: true,
     },
