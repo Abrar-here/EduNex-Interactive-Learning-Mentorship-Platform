@@ -53,7 +53,7 @@ export const createQuestion = async (req, res) => {
 
     const populatedQuestion = await question.populate("user", "name role");
 
-    // 3) 🔔 Notification: instructor gets alert when a student asks a question
+    // 3)  Notification: instructor gets alert when a student asks a question
     try {
       const instructorUserId =
         course.instructor?._id || course.instructor;
