@@ -26,6 +26,9 @@ import EditCourse from "./pages/EditCourse";
 import AddLesson from "./pages/AddLesson";
 import CourseList from "./pages/CourseList";
 import InstructorCourseDetails from "./pages/InstructorCourseDetails";
+// ✨ Added imports
+import LearningStats from "./pages/LearningStats";
+import AdminReports from "./pages/AdminReports";  // ← new import
 
 function App() {
   const { auth, logout } = useContext(AuthContext);
@@ -68,7 +71,11 @@ function App() {
         <Route
           path="/student/courses"
           element={
-            auth.user?.role === "student" ? <CourseList /> : <Navigate to="/" />
+            auth.user?.role === "student" ? (
+              <CourseList />
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
 
@@ -101,29 +108,45 @@ function App() {
             auth.user?.role === "admin" ? <AdminPage /> : <Navigate to="/" />
           }
         />
+
+        {/* New route for Admin: Report Management */}
+        <Route
+          path="/admin/reports"
+          element={
+            auth.user?.role === "admin" ? <AdminReports /> : <Navigate to="/" />
+          }
+        />
+
         <Route
           path="/instructor/course/:id/edit"
           element={
-            auth.user?.role === "instructor" ? (
-              <EditCourse />
-            ) : (
-              <Navigate to="/" />
-            )
+            auth.user?.role === "instructor" ? <EditCourse /> : <Navigate to="/" />
           }
         />
-        <Route path="/courses/:courseId/add-lesson" element={<AddLesson />} />
         <Route path="/courses" element={<CourseList />} />
+        <Route path="/courses/:courseId/add-lesson" element={<AddLesson />} />
 
-        {/* Keep fallback route if needed */}
         <Route path="*" element={<Navigate to="/" />} />
+
         <Route
           path="/instructor/courses/:id"
           element={<InstructorCourseDetails />}
         />
-
         <Route
           path="/instructor/courses/:id/add-lesson"
           element={<AddLesson />}
+        />
+
+        {/* 🌟 New route for LearningStats */}
+        <Route
+          path="/student/learning-stats"
+          element={
+            auth.user?.role === "student" ? (
+              <LearningStats />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
       </Routes>
     </BrowserRouter>
