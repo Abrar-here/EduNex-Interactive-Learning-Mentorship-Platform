@@ -1,0 +1,63 @@
+/* dashboard.css */
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.summary .card {
+  flex: 1 1 200px;
+  text-align: center;
+}
+
+.course-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.course-item {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.course-item .course-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-item .course-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.course-item .course-status {
+  font-size: 14px;
+  color: #777;
+}
+
+.course-progress {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.course-progress progress {
+  width: 70%;
+  height: 8px;
+}
+
+.course-progress span {
+  font-size: 14px;
+  color: #333;
+}

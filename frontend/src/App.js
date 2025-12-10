@@ -26,6 +26,8 @@ import EditCourse from "./pages/EditCourse";
 import AddLesson from "./pages/AddLesson";
 import CourseList from "./pages/CourseList";
 import InstructorCourseDetails from "./pages/InstructorCourseDetails";
+import ProgressReportPage from './pages/ProgressReportPage';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const { auth, logout } = useContext(AuthContext);
@@ -125,6 +127,9 @@ function App() {
           path="/instructor/courses/:id/add-lesson"
           element={<AddLesson />}
         />
+        <Route path="/report" element={<ProgressReportPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+
       </Routes>
     </BrowserRouter>
   );

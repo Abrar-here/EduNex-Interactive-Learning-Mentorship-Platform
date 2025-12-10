@@ -26,3 +26,11 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+import reportRoutes from "./routes/reportRoutes.js";
+// ...
+app.use('/api/reports', reportRoutes);
+
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+app.use('/api/dashboard', dashboardRoutes);
