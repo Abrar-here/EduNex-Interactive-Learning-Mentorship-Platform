@@ -41,6 +41,32 @@ export const createCourse = async (req, res) => {
     });
 
     await newCourse.save();
+
+
+    // 🔔 Notify admins: new course created (do not block main flow)
+    try {
+      const admins = await User.find({ role: "admin" }).select("_id");
+    
+      if (admins.length > 0) {
+        const instructorName = req.user?.name || "An instructor";
+    
+        const notifications = admins.map((a) => ({
+          user: a._id,
+          type: "course_created",
+          title: "New course created",
+          message: `${instructorName} created a new course: "${newCourse.title}".`,
+          link: "/admin",
+          course: newCourse._id,
+        }));
+    
+        await Notification.insertMany(notifications);
+      }
+    } catch (notifyErr) {
+      console.error("Error notifying admins about new course:", notifyErr);
+    }
+    
+
+
     res
       .status(201)
       .json({ message: "Course created successfully", course: newCourse });

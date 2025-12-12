@@ -286,7 +286,7 @@ function Navigation() {
                     to="/instructor/consultations/today"
                     className="px-4 py-2 bg-green-500 text-white rounded font-semibold"
                   >
-                    Today's Consultations
+                    UpComing Consultations
                   </Link>
                 </>
               )}

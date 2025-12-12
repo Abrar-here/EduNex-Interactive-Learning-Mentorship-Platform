@@ -4,6 +4,7 @@ import Course from "../models/Course.js";
 import Question from "../models/Question.js";
 import Answer from "../models/Answer.js";
 import User from "../models/User.js";
+import Notification from "../models/Notification.js";
 
 /**
  * POST /api/reports/content   (also wired as POST /api/reports)
@@ -80,6 +81,34 @@ export const createContentReport = async (req, res) => {
       reason: reason.trim(),
       details,
     });
+
+
+    // 🔔 Notify admins: new content report submitted (do not block main flow)
+try {
+  const admins = await User.find({ role: "admin" }).select("_id");
+
+  if (admins.length > 0) {
+    const safeSummary = (targetSummary || "").slice(0, 120);
+    const safeReason = (reason || "").trim().slice(0, 160);
+
+    const notifications = admins.map((a) => ({
+      user: a._id,
+      type: "content_reported",
+      title: "New report submitted",
+      message: `A ${targetType} was reported. Reason: ${safeReason}${
+        safeSummary ? ` • Target: ${safeSummary}` : ""
+      }`,
+      link: "/admin",
+      ...(courseId ? { course: courseId } : {}),
+    }));
+
+    await Notification.insertMany(notifications);
+  }
+} catch (notifyErr) {
+  console.error("Error notifying admins about new report:", notifyErr);
+}
+
+
 
     return res.status(201).json({
       message: "Report submitted. Thank you for helping keep EduNex safe.",
