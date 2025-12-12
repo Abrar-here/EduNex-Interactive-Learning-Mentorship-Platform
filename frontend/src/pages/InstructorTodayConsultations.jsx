@@ -46,10 +46,10 @@ export default function InstructorTodayConsultations() {
   return (
     <div className="max-w-4xl mx-auto px-4 mt-6">
       <h3 className="text-2xl font-semibold text-gray-800">
-        Today's Consultations
+        Upcoming Consultations
       </h3>
       <p className="text-gray-600 mb-4">
-        Here are your one-on-one sessions scheduled for today.
+        Here are the list of your one-on-one sessions scheduled
       </p>
 
       {loading && <p className="text-gray-600 mb-2">Loading...</p>}
