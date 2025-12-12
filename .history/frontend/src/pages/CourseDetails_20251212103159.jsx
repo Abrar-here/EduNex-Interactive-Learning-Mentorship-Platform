@@ -166,7 +166,7 @@ export default function CourseDetails() {
     if (!selectedLesson) return null;
 
     switch (selectedLesson.contentType) {
-      case "video": {
+      case "video":
         const embedUrl =
           selectedLesson.url.includes("youtube.com") ||
           selectedLesson.url.includes("youtu.be")
@@ -204,7 +204,6 @@ export default function CourseDetails() {
             Your browser does not support the video tag.
           </video>
         );
-      }
 
       case "pdf":
         return (
@@ -301,47 +300,11 @@ export default function CourseDetails() {
 
   return (
     <div className="max-w-7xl mx-auto p-4 space-y-6">
-      {/* Course Header with Report button */}
-      <div className="bg-white shadow rounded p-4 space-y-3">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div className="space-y-1">
-            <h2 className="text-3xl font-bold">{course.title}</h2>
-            <div className="flex flex-wrap gap-2 text-xs">
-              {course.category && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-semibold">
-                  {course.category}
-                </span>
-              )}
-              {course.status && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-green-50 text-green-700 font-semibold">
-                  {course.status}
-                </span>
-              )}
-            </div>
-            <p className="text-sm text-gray-600">
-              Instructor:{" "}
-              <span className="font-medium">
-                {course.instructor?.name || "Unknown"}
-              </span>
-            </p>
-          </div>
-
-          {/* 🚩 Report course button (small, top-right) */}
-          {auth.user && (
-            <div className="flex items-start gap-2">
-              <ReportButton
-                targetType="course"
-                targetId={course._id}
-                label="Report course"
-                small
-              />
-            </div>
-          )}
-        </div>
-
-        <p className="text-gray-700 mt-1">{course.description}</p>
-
-        <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-2">
+      {/* Course Header */}
+      <div className="bg-white shadow rounded p-4 space-y-2">
+        <h2 className="text-3xl font-bold">{course.title}</h2>
+        <p className="text-gray-700">{course.description}</p>
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
           <span>
             <strong>Category:</strong> {course.category || "N/A"}
           </span>
