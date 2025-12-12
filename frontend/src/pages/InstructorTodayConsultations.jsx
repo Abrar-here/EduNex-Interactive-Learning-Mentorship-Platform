@@ -77,7 +77,7 @@ export default function InstructorTodayConsultations() {
         Today&apos;s Consultations
       </h3>
       <p className="text-gray-600 mb-4">
-        Here are your one-on-one sessions scheduled for today.
+        Here are the list of your one-on-one sessions scheduled
       </p>
 
       {loading && <p className="text-gray-600 mb-2">Loading...</p>}
