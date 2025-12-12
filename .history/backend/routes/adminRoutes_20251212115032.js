@@ -8,7 +8,6 @@ import {
   updateCourseStatusAdmin,
   getAllContentReports,
   updateReportStatus,
-  getSystemAnalytics,
 } from "../controllers/adminController.js";
 import { protect, authorizeRoles } from "../middleware/authMiddleware.js";
 
