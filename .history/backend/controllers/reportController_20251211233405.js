@@ -352,12 +352,10 @@ export const generateProgressReport = async (req, res) => {
     const contentWidth = pageWidth - left - right;
 
     res.setHeader("Content-Type", "application/pdf");
-    // inside generateProgressReport
     res.setHeader(
       "Content-Disposition",
-      'inline; filename="edunex-progress-report.pdf"'
+      'attachment; filename="edunex-progress-report.pdf"'
     );
-
     doc.pipe(res);
 
     // PAGE FRAME + HEADER

@@ -32,7 +32,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/reports", reportRoutes);
-app.use("/api/recommendations", recommendationRoutes);
 
 // Test route
 app.get("/", (req, res) => {

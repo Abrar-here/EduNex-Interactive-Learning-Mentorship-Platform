@@ -48,7 +48,7 @@ function drawPageFrame(doc, user) {
   doc
     .font(FONT.base)
     .fontSize(9)
-    .fillColor(COLORS.accent) // light but readable on dark, still ok on white
+    .fillColor("#F9FAFB") // light but readable on dark, still ok on white
     .text("Interactive Learning & Mentorship Platform", left, 40);
 
   // title right
@@ -352,12 +352,10 @@ export const generateProgressReport = async (req, res) => {
     const contentWidth = pageWidth - left - right;
 
     res.setHeader("Content-Type", "application/pdf");
-    // inside generateProgressReport
     res.setHeader(
       "Content-Disposition",
-      'inline; filename="edunex-progress-report.pdf"'
+      'attachment; filename="edunex-progress-report.pdf"'
     );
-
     doc.pipe(res);
 
     // PAGE FRAME + HEADER
