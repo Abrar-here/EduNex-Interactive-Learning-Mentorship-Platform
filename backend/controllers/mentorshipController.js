@@ -37,8 +37,8 @@ const addSlotsFromInterval = (
   slotsArray,
   now
 ) => {
-  const MIN_DURATION = 15; // minutes
-  const MAX_DURATION = 30; // minutes
+  const MIN_DURATION = 15; 
+  const MAX_DURATION = 30;
 
   for (
     let t = intervalStartMinutes;
@@ -281,7 +281,7 @@ export const upsertAvailabilityForDate = async (req, res) => {
           "Error cancelling sessions after availability update:",
           err
         );
-        // Don't fail the main request if this part breaks
+      
       }
     }
 
