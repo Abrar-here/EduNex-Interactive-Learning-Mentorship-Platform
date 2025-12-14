@@ -18,6 +18,7 @@ const answerSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // 🔹 NEW: who has upvoted this answer
     upvotedBy: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +26,7 @@ const answerSchema = new mongoose.Schema(
       },
     ],
 
+    // numeric count (derived from upvotedBy.length)
     upvotes: {
       type: Number,
       default: 0,

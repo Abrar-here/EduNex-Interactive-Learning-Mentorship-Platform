@@ -5,6 +5,7 @@ import { getMyLearningStats } from "../controllers/statsController.js";
 
 const router = express.Router();
 
+// GET /api/stats/my  -> student learning stats & engagement
 router.get("/my", protect, authorizeRoles("student"), getMyLearningStats);
 
 export default router;
