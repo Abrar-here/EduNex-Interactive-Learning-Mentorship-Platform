@@ -37,8 +37,8 @@ const addSlotsFromInterval = (
   slotsArray,
   now
 ) => {
-  const MIN_DURATION = 15; // minutes
-  const MAX_DURATION = 30; // minutes
+  const MIN_DURATION = 15; 
+  const MAX_DURATION = 30;
 
   for (
     let t = intervalStartMinutes;

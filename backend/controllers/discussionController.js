@@ -21,7 +21,7 @@ export const createQuestion = async (req, res) => {
         .json({ message: "Title and content are required" });
     }
 
-    // 1) Find the course and check enrollment
+    // Find the course and check enrollment
     const course = await Course.findById(courseId).populate(
       "enrolledStudents",
       "_id"
@@ -43,7 +43,7 @@ export const createQuestion = async (req, res) => {
       });
     }
 
-    // 2) Create the question
+    //Create the question
     const question = await Question.create({
       course: courseId,
       user: studentId,
@@ -53,7 +53,7 @@ export const createQuestion = async (req, res) => {
 
     const populatedQuestion = await question.populate("user", "name role");
 
-    // 3)  Notification: instructor gets alert when a student asks a question
+    //  Notification instructor gets alert when a student asks a question
     try {
       const instructorUserId = course.instructor?._id || course.instructor;
       const courseTitle = course.title || "your course";
@@ -74,7 +74,7 @@ export const createQuestion = async (req, res) => {
         "Error creating notification for question asked:",
         notifyErr
       );
-      // Do not fail the request if notification fails
+    
     }
 
     res.status(201).json(populatedQuestion);
@@ -100,7 +100,7 @@ export const getCourseQuestions = async (req, res) => {
   }
 };
 
-// -------------------- ANSWERS (REPLIES) -------------------- //
+// -------------------- ANSWERS-------------------- //
 
 // Create a reply (answer) to a question
 export const createAnswer = async (req, res) => {
@@ -125,7 +125,7 @@ export const createAnswer = async (req, res) => {
 
     const populatedAnswer = await answer.populate("user", "name role");
 
-    // 🔔 Notification: question owner gets alert when their question is replied
+    //Notification: question owner gets alert when their question is replied
     try {
       // Don't notify if the same person answers their own question
       if (question.user.toString() !== req.user._id.toString()) {
@@ -151,7 +151,7 @@ export const createAnswer = async (req, res) => {
         "Error creating notification for question reply:",
         notifyErr
       );
-      // Don't break the main request if notification fails
+    
     }
 
     res.status(201).json(populatedAnswer);
