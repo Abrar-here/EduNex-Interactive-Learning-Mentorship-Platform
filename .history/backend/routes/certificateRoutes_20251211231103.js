@@ -12,8 +12,16 @@ import {
 
 const router = express.Router();
 
+/* --------- STUDENT ROUTES --------- */
+
+// GET /api/certificates/my
+// Logged-in student sees all of their certificates
 router.get("/my", protect, authorizeRoles("student"), getMyCertificates);
 
+/* ----- INSTRUCTOR / ADMIN ROUTES ----- */
+
+// GET /api/certificates/course/:courseId
+// Instructor/Admin can see all certificates for a course
 router.get(
   "/course/:courseId",
   protect,
@@ -21,6 +29,8 @@ router.get(
   getCourseCertificates
 );
 
+// POST /api/certificates/course/:courseId/students/:studentId
+// Instructor/Admin can manually issue (or re-issue) a certificate
 router.post(
   "/course/:courseId/students/:studentId",
   protect,
@@ -28,6 +38,10 @@ router.post(
   issueCertificateManually
 );
 
+/* ------------- COMMON ------------- */
+
+// PATCH /api/certificates/:id/revoke
+// Admin/Instructor can revoke a certificate
 router.patch(
   "/:id/revoke",
   protect,
@@ -35,6 +49,8 @@ router.patch(
   revokeCertificate
 );
 
+// GET /api/certificates/:id
+// Fetch single certificate (ownership / access checked in controller)
 router.get("/:id", protect, getCertificateById);
 
 export default router;

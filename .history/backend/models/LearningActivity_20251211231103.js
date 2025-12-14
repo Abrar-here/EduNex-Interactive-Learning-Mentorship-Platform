@@ -24,7 +24,8 @@ const learningActivitySchema = new Schema(
       enum: ["lesson_completed"],
       default: "lesson_completed",
     },
-
+    // For now we store an approximate duration in minutes.
+    // You can later replace this with real tracked time.
     durationMinutes: {
       type: Number,
       default: 15,
@@ -39,6 +40,7 @@ const learningActivitySchema = new Schema(
   }
 );
 
+// Ensure one record per (student, course, lesson, activityType)
 learningActivitySchema.index(
   { student: 1, course: 1, lesson: 1, activityType: 1 },
   { unique: true }

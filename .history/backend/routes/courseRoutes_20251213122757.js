@@ -19,10 +19,15 @@ import {
 
 const router = express.Router();
 
+// ----------------- INSTRUCTOR -----------------
+
+// Create course
 router.post("/", protect, authorizeRoles("instructor"), createCourse);
 
+// Update course
 router.put("/:id", protect, authorizeRoles("instructor"), updateCourse);
 
+// ✅ Add lesson to course
 router.post(
   "/:id/lessons",
   protect,
@@ -30,13 +35,14 @@ router.post(
   addLessonToCourse
 );
 
+// ✅ Delete lesson
 router.delete(
   "/:courseId/lessons/:lessonId",
   protect,
   authorizeRoles("instructor"),
   deleteLesson
 );
-
+// DELETE a course (instructor or admin)
 router.delete(
   "/:id",
   protect,
@@ -44,6 +50,7 @@ router.delete(
   deleteCourse
 );
 
+// ✅ Add announcement
 router.post(
   "/:id/announcements",
   protect,
@@ -51,10 +58,15 @@ router.post(
   addAnnouncement
 );
 
+// ----------------- STUDENT -----------------
+
+// Get student's enrolled courses
 router.get("/my-courses", protect, authorizeRoles("student"), getMyCourses);
 
+// Enroll
 router.post("/:id/enroll", protect, authorizeRoles("student"), enrollInCourse);
 
+// ✅ Mark lesson as completed
 router.post(
   "/:courseId/lessons/:lessonId/complete",
   protect,
@@ -63,6 +75,7 @@ router.post(
   completeLesson
 );
 
+// ✅ Get course announcements (students view)
 router.get(
   "/:id/announcements",
   protect,
@@ -70,6 +83,7 @@ router.get(
   getAnnouncements
 );
 
+// ✅ Publish / Unpublish course
 router.put(
   "/:id/status",
   protect,
@@ -77,8 +91,12 @@ router.put(
   updateCourseStatus
 );
 
+// ----------------- COMMON -----------------
+
+// Get all courses
 router.get("/", protect, getCourses);
 
+// Get course by id
 router.get("/:id", protect, getCourseById);
 
 export default router;

@@ -4,16 +4,23 @@ import express from "express";
 import {
   getMyAvailability,
   upsertAvailabilityForDate,
+  
   getAvailableSlotsForCourse,
   bookSession,
   getTodaySessionsForInstructor,
   getMySessionsForStudent,
   cancelSessionByStudent,
 } from "../controllers/mentorshipController.js";
-import { protect, authorizeRoles } from "../middleware/authMiddleware.js";
+import {
+  protect,
+  authorizeRoles,
+} from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+/* ---------- Instructor: availability management ---------- */
+
+// GET my availability (optionally in a date range)
 router.get(
   "/availability/my",
   protect,
@@ -21,6 +28,7 @@ router.get(
   getMyAvailability
 );
 
+// Create or update availability for a specific date
 router.post(
   "/availability",
   protect,
@@ -28,6 +36,17 @@ router.post(
   upsertAvailabilityForDate
 );
 
+// Delete a specific day's availability
+// router.delete(
+//   "/availability/:id",
+//   protect,
+//   authorizeRoles("instructor"),
+//   deleteAvailabilityDay
+// );
+
+/* ---------- Student: view slots & book ---------- */
+
+// Get free slots for a course's instructor on a date
 router.get(
   "/available-slots",
   protect,
@@ -35,8 +54,15 @@ router.get(
   getAvailableSlotsForCourse
 );
 
-router.post("/sessions", protect, authorizeRoles("student"), bookSession);
+// Book a mentorship session
+router.post(
+  "/sessions",
+  protect,
+  authorizeRoles("student"),
+  bookSession
+);
 
+// View all upcoming sessions for the student
 router.get(
   "/sessions/my",
   protect,
@@ -44,12 +70,15 @@ router.get(
   getMySessionsForStudent
 );
 
+// Cancel a session (if >12 hours before start)
 router.delete(
   "/sessions/:id",
   protect,
   authorizeRoles("student"),
   cancelSessionByStudent
 );
+
+/* ---------- Instructor: view today's sessions ---------- */
 
 router.get(
   "/sessions/today",
