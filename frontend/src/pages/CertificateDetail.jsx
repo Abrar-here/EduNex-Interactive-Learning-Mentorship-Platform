@@ -23,7 +23,7 @@ export default function CertificateDetail() {
     const fetchCertificate = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/certificates/${id}`,
+          `https://edunex-platform.onrender.com/api/certificates/${id}`,
           {
             headers: { Authorization: `Bearer ${auth.token}` },
           }

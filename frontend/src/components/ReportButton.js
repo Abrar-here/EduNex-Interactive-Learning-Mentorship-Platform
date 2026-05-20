@@ -43,7 +43,7 @@ export default function ReportButton({
       setSuccessMessage("");
 
       await axios.post(
-        "http://localhost:5000/api/reports/content",
+        "https://edunex-platform.onrender.com/api/reports/content",
         {
           targetType,
           targetId,

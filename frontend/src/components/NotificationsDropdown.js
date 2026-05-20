@@ -25,7 +25,7 @@ export default function NotificationsDropdown() {
 
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/notifications/unread-count",
+          "https://edunex-platform.onrender.com/api/notifications/unread-count",
           {
             headers: { Authorization: `Bearer ${auth.token}` },
           }
@@ -44,7 +44,7 @@ export default function NotificationsDropdown() {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/notifications", {
+      const res = await axios.get("https://edunex-platform.onrender.com/api/notifications", {
         params: { limit: 10 },
         headers: { Authorization: `Bearer ${auth.token}` },
       });
@@ -68,7 +68,7 @@ export default function NotificationsDropdown() {
     try {
       if (!notification.isRead) {
         await axios.patch(
-          `http://localhost:5000/api/notifications/${notification._id}/read`,
+          `https://edunex-platform.onrender.com/api/notifications/${notification._id}/read`,
           {},
           { headers: { Authorization: `Bearer ${auth?.token}` } }
         );
@@ -94,7 +94,7 @@ export default function NotificationsDropdown() {
 
     try {
       await axios.patch(
-        "http://localhost:5000/api/notifications/mark-all-read",
+        "https://edunex-platform.onrender.com/api/notifications/mark-all-read",
         {},
         { headers: { Authorization: `Bearer ${auth?.token}` } }
       );

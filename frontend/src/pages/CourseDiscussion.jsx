@@ -57,7 +57,7 @@ export default function CourseDiscussion() {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/discussions/questions/${qId}/answers`,
+        `https://edunex-platform.onrender.com/api/discussions/questions/${qId}/answers`,
         { content: text },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -84,7 +84,7 @@ export default function CourseDiscussion() {
 
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`, {
+        const res = await axios.get(`https://edunex-platform.onrender.com/api/courses/${id}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         setCourse(res.data.course || res.data);
@@ -105,7 +105,7 @@ export default function CourseDiscussion() {
     try {
       setLoadingQuestions(true);
       const res = await axios.get(
-        `http://localhost:5000/api/discussions/courses/${id}/questions`,
+        `https://edunex-platform.onrender.com/api/discussions/courses/${id}/questions`,
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
       setQuestions(res.data || []);
@@ -132,7 +132,7 @@ export default function CourseDiscussion() {
     try {
       setPosting(true);
       const res = await axios.post(
-        `http://localhost:5000/api/discussions/courses/${id}/questions`,
+        `https://edunex-platform.onrender.com/api/discussions/courses/${id}/questions`,
         { title, content },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -152,7 +152,7 @@ export default function CourseDiscussion() {
     try {
       setAnswersLoading((prev) => ({ ...prev, [qId]: true }));
       const res = await axios.get(
-        `http://localhost:5000/api/discussions/questions/${qId}/answers`,
+        `https://edunex-platform.onrender.com/api/discussions/questions/${qId}/answers`,
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
       setAnswersByQuestion((prev) => ({ ...prev, [qId]: res.data || [] }));
@@ -172,7 +172,7 @@ export default function CourseDiscussion() {
   const handleUpvoteAnswer = async (qId, aId) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/discussions/answers/${aId}/upvote`,
+        `https://edunex-platform.onrender.com/api/discussions/answers/${aId}/upvote`,
         {},
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -185,7 +185,7 @@ export default function CourseDiscussion() {
   const handleMarkHelpful = async (qId, aId) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/discussions/answers/${aId}/mark-helpful`,
+        `https://edunex-platform.onrender.com/api/discussions/answers/${aId}/mark-helpful`,
         {},
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -200,7 +200,7 @@ export default function CourseDiscussion() {
       return;
     try {
       await axios.delete(
-        `http://localhost:5000/api/discussions/questions/${qId}`,
+        `https://edunex-platform.onrender.com/api/discussions/questions/${qId}`,
         {
           headers: { Authorization: `Bearer ${auth.token}` },
         }
@@ -221,7 +221,7 @@ export default function CourseDiscussion() {
     if (!window.confirm("Are you sure you want to delete this answer?")) return;
     try {
       await axios.delete(
-        `http://localhost:5000/api/discussions/answers/${aId}`,
+        `https://edunex-platform.onrender.com/api/discussions/answers/${aId}`,
         {
           headers: { Authorization: `Bearer ${auth.token}` },
         }

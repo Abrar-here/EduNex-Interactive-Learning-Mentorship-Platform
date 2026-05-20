@@ -34,7 +34,7 @@ export default function Profile() {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/auth/me", {
+        const res = await axios.get("https://edunex-platform.onrender.com/api/auth/me", {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
 
@@ -72,7 +72,7 @@ export default function Profile() {
       if (form.password) payload.password = form.password;
 
       const res = await axios.put(
-        "http://localhost:5000/api/auth/me",
+        "https://edunex-platform.onrender.com/api/auth/me",
         payload,
         {
           headers: {

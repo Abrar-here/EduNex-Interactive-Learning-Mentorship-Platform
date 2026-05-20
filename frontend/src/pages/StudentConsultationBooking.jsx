@@ -43,7 +43,7 @@ export default function StudentConsultationBooking() {
     const fetchCourse = async () => {
       setLoadingCourse(true);
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`, {
+        const res = await axios.get(`https://edunex-platform.onrender.com/api/courses/${id}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         setCourse(res.data.course || res.data);
@@ -68,7 +68,7 @@ export default function StudentConsultationBooking() {
 
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/mentorship/available-slots",
+        "https://edunex-platform.onrender.com/api/mentorship/available-slots",
         {
           params: { courseId: id, date },
           headers: { Authorization: `Bearer ${auth.token}` },
@@ -143,7 +143,7 @@ export default function StudentConsultationBooking() {
       setMessage("");
 
       await axios.post(
-        "http://localhost:5000/api/mentorship/sessions",
+        "https://edunex-platform.onrender.com/api/mentorship/sessions",
         {
           courseId: id,
           date: selectedDate,

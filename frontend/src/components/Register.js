@@ -21,7 +21,7 @@ export default function Register() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://edunex-platform.onrender.com/api/auth/register",
         form
       );
       setIsError(false);

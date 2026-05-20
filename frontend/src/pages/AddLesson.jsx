@@ -51,7 +51,7 @@ export default function AddLesson() {
       setSaving(true);
 
       await axios.post(
-        `http://localhost:5000/api/courses/${courseId}/lessons`,
+        `https://edunex-platform.onrender.com/api/courses/${courseId}/lessons`,
         {
           title: form.title.trim(),
           contentType: form.contentType,

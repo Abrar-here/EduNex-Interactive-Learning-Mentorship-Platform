@@ -36,7 +36,7 @@ export default function StudentMyConsultations() {
         setLoading(true);
 
         const res = await axios.get(
-          "http://localhost:5000/api/mentorship/sessions/my",
+          "https://edunex-platform.onrender.com/api/mentorship/sessions/my",
           { headers: { Authorization: `Bearer ${auth.token}` } }
         );
 
@@ -73,7 +73,7 @@ export default function StudentMyConsultations() {
       setMessage("");
 
       await axios.delete(
-        `http://localhost:5000/api/mentorship/sessions/${sessionId}`,
+        `https://edunex-platform.onrender.com/api/mentorship/sessions/${sessionId}`,
         { headers: { Authorization: `Bearer ${auth?.token}` } }
       );
 

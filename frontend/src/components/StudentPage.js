@@ -20,7 +20,7 @@ export default function StudentPage() {
 
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/courses", {
+        const res = await axios.get("https://edunex-platform.onrender.com/api/courses", {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
 
@@ -49,7 +49,7 @@ export default function StudentPage() {
       try {
         setRecLoading(true);
         const res = await axios.get(
-          "http://localhost:5000/api/recommendations/my",
+          "https://edunex-platform.onrender.com/api/recommendations/my",
           {
             headers: { Authorization: `Bearer ${auth.token}` },
           }
