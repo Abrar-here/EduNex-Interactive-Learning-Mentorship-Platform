@@ -39,7 +39,7 @@ export default function EditCourse() {
         setLoading(true);
         setError("");
 
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`, {
+        const res = await axios.get(`https://edunex-platform.onrender.com/api/courses/${id}`, {
           headers,
         });
 
@@ -77,7 +77,7 @@ export default function EditCourse() {
         setLoadingPrereq(true);
 
         const res = await axios.get(
-          `http://localhost:5000/api/courses?instructor=${encodeURIComponent(
+          `https://edunex-platform.onrender.com/api/courses?instructor=${encodeURIComponent(
             auth.user?.name || ""
           )}`,
           { headers }
@@ -147,7 +147,7 @@ export default function EditCourse() {
       const headers = { Authorization: `Bearer ${auth.token}` };
 
       await axios.put(
-        `http://localhost:5000/api/courses/${id}`,
+        `https://edunex-platform.onrender.com/api/courses/${id}`,
         {
           title: title.trim(),
           description: description.trim(),

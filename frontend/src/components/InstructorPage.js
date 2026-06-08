@@ -36,7 +36,7 @@ export default function InstructorPage() {
 
   const fetchCourses = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/courses", {
+      const res = await axios.get("https://edunex-platform.onrender.com/api/courses", {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
 
@@ -89,7 +89,7 @@ export default function InstructorPage() {
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/courses",
+        "https://edunex-platform.onrender.com/api/courses",
         payload,
         {
           headers: {
@@ -122,7 +122,7 @@ export default function InstructorPage() {
     if (!window.confirm("Are you sure you want to delete this course?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/courses/${courseId}`, {
+      await axios.delete(`https://edunex-platform.onrender.com/api/courses/${courseId}`, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
       setCourses((prev) => prev.filter((c) => c._id !== courseId));
@@ -138,7 +138,7 @@ export default function InstructorPage() {
     try {
       const newStatus = course.status === "published" ? "draft" : "published";
       const res = await axios.put(
-        `http://localhost:5000/api/courses/${course._id}/status`,
+        `https://edunex-platform.onrender.com/api/courses/${course._id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -157,7 +157,7 @@ export default function InstructorPage() {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/courses/${courseId}/announcements`,
+        `https://edunex-platform.onrender.com/api/courses/${courseId}/announcements`,
         { content },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );

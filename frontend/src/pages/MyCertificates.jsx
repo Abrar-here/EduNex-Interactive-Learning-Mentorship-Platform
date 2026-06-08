@@ -23,7 +23,7 @@ export default function MyCertificates() {
         setError("");
 
         const res = await axios.get(
-          "http://localhost:5000/api/certificates/my",
+          "https://edunex-platform.onrender.com/api/certificates/my",
           {
             headers: {
               Authorization: `Bearer ${auth.token}`,

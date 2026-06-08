@@ -72,7 +72,7 @@ export default function CourseList() {
       if (categoryQuery) params.category = categoryQuery;
       if (instructorQuery) params.instructor = instructorQuery;
 
-      const res = await axios.get("http://localhost:5000/api/courses", {
+      const res = await axios.get("https://edunex-platform.onrender.com/api/courses", {
         headers: {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -123,7 +123,7 @@ export default function CourseList() {
       showToast(null, ""); // clear previous toast immediately
 
       const res = await axios.post(
-        `http://localhost:5000/api/courses/${courseId}/enroll`,
+        `https://edunex-platform.onrender.com/api/courses/${courseId}/enroll`,
         {},
         {
           headers: {

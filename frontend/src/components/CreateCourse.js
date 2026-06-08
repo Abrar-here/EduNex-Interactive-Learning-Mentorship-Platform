@@ -37,7 +37,7 @@ export default function CreateCourse() {
 
         // backend supports ?instructor=...
         const res = await axios.get(
-          `http://localhost:5000/api/courses?instructor=${encodeURIComponent(
+          `https://edunex-platform.onrender.com/api/courses?instructor=${encodeURIComponent(
             auth.user.name || ""
           )}`,
           {
@@ -103,7 +103,7 @@ export default function CreateCourse() {
       setSaving(true);
 
       await axios.post(
-        "http://localhost:5000/api/courses",
+        "https://edunex-platform.onrender.com/api/courses",
         {
           title: form.title.trim(),
           description: form.description.trim(),

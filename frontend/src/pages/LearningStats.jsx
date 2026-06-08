@@ -15,7 +15,7 @@ export default function LearningStats() {
   const handleDownloadReport = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/reports/progress",
+        "https://edunex-platform.onrender.com/api/reports/progress",
         {
           headers: { Authorization: `Bearer ${auth.token}` },
           responseType: "blob",
@@ -45,7 +45,7 @@ export default function LearningStats() {
   const handlePreviewReport = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/reports/progress",
+        "https://edunex-platform.onrender.com/api/reports/progress",
         {
           headers: { Authorization: `Bearer ${auth.token}` },
           responseType: "blob",
@@ -77,7 +77,7 @@ export default function LearningStats() {
         setLoading(true);
         setError("");
 
-        const res = await axios.get("http://localhost:5000/api/stats/my", {
+        const res = await axios.get("https://edunex-platform.onrender.com/api/stats/my", {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
         setStats(res.data);

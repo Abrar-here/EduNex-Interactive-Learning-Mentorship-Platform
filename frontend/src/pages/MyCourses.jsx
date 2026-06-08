@@ -63,7 +63,7 @@ export default function MyCourses() {
         setError("");
 
         const res = await axios.get(
-          "http://localhost:5000/api/courses/my-courses",
+          "https://edunex-platform.onrender.com/api/courses/my-courses",
           {
             headers: {
               Authorization: `Bearer ${auth.token}`,

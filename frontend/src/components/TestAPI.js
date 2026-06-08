@@ -6,7 +6,7 @@ export default function TestAPI() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/test") // backend URL
+      .get("https://edunex-platform.onrender.com/api/test") // backend URL
       .then((res) => setData(res.data.message))
       .catch((err) => console.error(err));
   }, []);

@@ -35,7 +35,7 @@ export default function CourseDetails() {
         setError("");
         setEnrollMsg("");
 
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`, {
+        const res = await axios.get(`https://edunex-platform.onrender.com/api/courses/${id}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
 
@@ -71,7 +71,7 @@ export default function CourseDetails() {
     const fetchCertificateForCourse = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/certificates/my",
+          "https://edunex-platform.onrender.com/api/certificates/my",
           {
             headers: { Authorization: `Bearer ${auth.token}` },
           }
@@ -123,7 +123,7 @@ export default function CourseDetails() {
       setMissingPrereqs([]);
 
       const res = await axios.post(
-        `http://localhost:5000/api/courses/${id}/enroll`,
+        `https://edunex-platform.onrender.com/api/courses/${id}/enroll`,
         {},
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -150,7 +150,7 @@ export default function CourseDetails() {
       if (alreadyCompleted) return;
 
       const res = await axios.post(
-        `http://localhost:5000/api/courses/${id}/lessons/${lessonId}/complete`,
+        `https://edunex-platform.onrender.com/api/courses/${id}/lessons/${lessonId}/complete`,
         {},
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
@@ -312,7 +312,7 @@ export default function CourseDetails() {
     if (!newAnnouncement.trim()) return;
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/courses/${id}/announcements`,
+        `https://edunex-platform.onrender.com/api/courses/${id}/announcements`,
         { content: newAnnouncement },
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );

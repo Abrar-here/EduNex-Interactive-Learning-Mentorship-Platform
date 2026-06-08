@@ -28,7 +28,7 @@ export default function InstructorTodayConsultations() {
       setLoading(true);
 
       const res = await axios.get(
-        "http://localhost:5000/api/mentorship/sessions/today",
+        "https://edunex-platform.onrender.com/api/mentorship/sessions/today",
         {
           headers: { Authorization: `Bearer ${auth.token}` },
         }

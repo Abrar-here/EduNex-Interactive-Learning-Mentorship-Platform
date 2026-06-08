@@ -35,7 +35,7 @@ export default function InstructorConsultationSchedule() {
         setMessage("");
 
         const res = await axios.get(
-          `http://localhost:5000/api/mentorship/availability/my?from=${selectedDate}&to=${selectedDate}`,
+          `https://edunex-platform.onrender.com/api/mentorship/availability/my?from=${selectedDate}&to=${selectedDate}`,
           { headers: { Authorization: `Bearer ${auth.token}` } }
         );
 
@@ -109,7 +109,7 @@ export default function InstructorConsultationSchedule() {
       };
 
       const res = await axios.post(
-        "http://localhost:5000/api/mentorship/availability",
+        "https://edunex-platform.onrender.com/api/mentorship/availability",
         payload,
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );

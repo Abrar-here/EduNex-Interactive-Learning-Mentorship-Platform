@@ -33,10 +33,10 @@ export default function AdminPage() {
 
         const [usersRes, coursesRes, reportsRes, analyticsRes] =
           await Promise.all([
-            axios.get("http://localhost:5000/api/admin/users", { headers }),
-            axios.get("http://localhost:5000/api/admin/courses", { headers }),
-            axios.get("http://localhost:5000/api/admin/reports", { headers }),
-            axios.get("http://localhost:5000/api/admin/analytics", {
+            axios.get("https://edunex-platform.onrender.com/api/admin/users", { headers }),
+            axios.get("https://edunex-platform.onrender.com/api/admin/courses", { headers }),
+            axios.get("https://edunex-platform.onrender.com/api/admin/reports", { headers }),
+            axios.get("https://edunex-platform.onrender.com/api/admin/analytics", {
               headers,
             }),
           ]);
@@ -73,7 +73,7 @@ export default function AdminPage() {
     try {
       setUpdating(true);
       const res = await axios.patch(
-        `http://localhost:5000/api/admin/users/${userId}/role`,
+        `https://edunex-platform.onrender.com/api/admin/users/${userId}/role`,
         { role: newRole },
         {
           headers: { Authorization: `Bearer ${auth.token}` },
@@ -105,7 +105,7 @@ export default function AdminPage() {
 
     try {
       setUpdating(true);
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, {
+      await axios.delete(`https://edunex-platform.onrender.com/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${auth.token}` },
       });
 
@@ -122,7 +122,7 @@ export default function AdminPage() {
     try {
       setUpdating(true);
       const res = await axios.patch(
-        `http://localhost:5000/api/admin/courses/${courseId}/status`,
+        `https://edunex-platform.onrender.com/api/admin/courses/${courseId}/status`,
         { status },
         {
           headers: { Authorization: `Bearer ${auth.token}` },
@@ -155,7 +155,7 @@ export default function AdminPage() {
     try {
       setUpdating(true);
       const res = await axios.patch(
-        `http://localhost:5000/api/admin/reports/${reportId}/status`,
+        `https://edunex-platform.onrender.com/api/admin/reports/${reportId}/status`,
         { status },
         {
           headers: { Authorization: `Bearer ${auth.token}` },

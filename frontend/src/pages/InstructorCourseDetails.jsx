@@ -20,7 +20,7 @@ export default function InstructorCourseDetails() {
 
     const fetchCourse = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/courses/${id}`, {
+        const res = await axios.get(`https://edunex-platform.onrender.com/api/courses/${id}`, {
           headers: { Authorization: `Bearer ${auth.token}` },
         });
 
@@ -42,7 +42,7 @@ export default function InstructorCourseDetails() {
 
     try {
       await axios.delete(
-        `http://localhost:5000/api/courses/${id}/lessons/${lessonId}`,
+        `https://edunex-platform.onrender.com/api/courses/${id}/lessons/${lessonId}`,
         { headers: { Authorization: `Bearer ${auth.token}` } }
       );
 
