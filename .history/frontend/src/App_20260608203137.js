@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { useContext, useState } from "react";
 
+import Landing from "./pages/Landing";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
@@ -55,8 +56,10 @@ function App() {
           <div className="app-shell page-fade">
             <Routes>
               {/* Public Routes */}
+              <Route path="/" element={<Landing />} />
+
               <Route
-                path="/"
+                path="/login"
                 element={
                   !auth.user ? <Login /> : <Navigate to={getDashboardRoute()} />
                 }
@@ -311,10 +314,10 @@ function Navigation() {
     auth?.user?.role === "student"
       ? "/student"
       : auth?.user?.role === "instructor"
-      ? "/instructor"
-      : auth?.user?.role === "admin"
-      ? "/admin"
-      : "/";
+        ? "/instructor"
+        : auth?.user?.role === "admin"
+          ? "/admin"
+          : "/";
 
   const showBackButton =
     auth?.user && !["/", "/register", homeRoute].includes(location.pathname);
@@ -451,7 +454,7 @@ function Navigation() {
                     Dashboard
                   </Link>
 
-                  <Link
+                  {/* <Link
                     to="/instructor/consultations/schedule"
                     className={`${pillGhost} ${
                       isActivePath("/instructor/consultations")
@@ -460,9 +463,9 @@ function Navigation() {
                     }`}
                   >
                     Manage Consultations
-                  </Link>
+                  </Link> */}
 
-                  <Link
+                  {/* <Link
                     to="/instructor/consultations/today"
                     className={`${pillAccent} ${
                       isActivePath("/instructor/consultations/today")
@@ -471,7 +474,7 @@ function Navigation() {
                     }`}
                   >
                     Today&apos;s Consultations
-                  </Link>
+                  </Link> */}
                 </>
               )}
 
