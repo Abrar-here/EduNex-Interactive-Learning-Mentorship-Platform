@@ -40,6 +40,9 @@ app.use("/api/admin", adminRoutes);
 app.get("/", (req, res) => {
   res.send("EduNex API is running...");
 });
+app.get("/ping", (req, res) => {
+  res.status(200).send("alive");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
