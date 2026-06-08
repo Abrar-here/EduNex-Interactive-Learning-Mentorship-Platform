@@ -1,12 +1,22 @@
-// backend/controllers/authController.js
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Notification from "../models/Notification.js";
+
+// helper to generate JWT
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+    expiresIn: "1d",
+  });
+};
 
 // ✅ Register user
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    let { name, email, password, role } = req.body;
+
+    // normalize email
+    email = email.toLowerCase().trim();
 
     // check if user already exists
     const existingUser = await User.findOne({ email });
@@ -23,13 +33,40 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: assignedRole, // ignore "admin" completely
+      role: assignedRole,
     });
 
     await newUser.save();
 
+    // 🔔 Notify admins: new instructor registered (do not block main flow)
+    if (newUser.role === "instructor") {
+      try {
+        const admins = await User.find({ role: "admin" }).select("_id");
+
+        if (admins.length > 0) {
+          const notifications = admins.map((a) => ({
+            user: a._id,
+            type: "instructor_registered",
+            title: "New instructor registered",
+            message: `Instructor "${newUser.name}" has registered (${newUser.email}).`,
+            link: "/admin",
+          }));
+
+          await Notification.insertMany(notifications);
+        }
+      } catch (notifyErr) {
+        console.error(
+          "Error notifying admins about new instructor:",
+          notifyErr,
+        );
+      }
+    }
+
+    const token = generateToken(newUser);
+
     res.status(201).json({
       message: "User registered successfully",
+      token,
       user: {
         id: newUser._id,
         name: newUser.name,
@@ -38,6 +75,7 @@ export const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Register error:", error);
     res.status(500).json({ message: "Error registering user", error });
   }
 };
@@ -45,7 +83,10 @@ export const registerUser = async (req, res) => {
 // ✅ Login user
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    // normalize email
+    email = email.toLowerCase().trim();
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });
@@ -54,15 +95,7 @@ export const loginUser = async (req, res) => {
     if (!isPasswordValid)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    // ✅ include role in JWT
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const token = generateToken(user);
 
     res.json({
       message: "Login successful",
@@ -75,6 +108,7 @@ export const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: "Error logging in", error });
   }
 };
