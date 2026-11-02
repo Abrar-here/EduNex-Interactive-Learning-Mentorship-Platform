@@ -79,7 +79,7 @@ export const registerUser = async (req, res) => {
 // ✅ Login user (FIXED + DEBUG SAFE)
 export const loginUser = async (req, res) => {
   try {
-    console.log("LOGIN REQUEST RECEIVED:", req.body);
+    console.log("Login attempt for:", req.body.email);
 
     let { email, password } = req.body;
 
