@@ -1,15 +1,7 @@
 // frontend/src/App.js
 import "./App.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-  Link,
-} from "react-router-dom";
-import { useContext, useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
 
 import Landing from "./pages/Landing";
 import Register from "./components/Register";
@@ -20,7 +12,7 @@ import InstructorPage from "./components/InstructorPage";
 import AdminPage from "./components/AdminPage";
 import CreateCourse from "./components/CreateCourse";
 import { AuthContext } from "./context/AuthContext";
-import NotificationsDropdown from "./components/NotificationsDropdown";
+import AppNavbar from "./components/AppNavbar";
 
 import CourseDetails from "./pages/CourseDetails";
 import MyCourses from "./pages/MyCourses";
@@ -51,7 +43,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Navigation />
+        <AppNavbar />
         <main className="App-main pt-20">
           <div className="app-shell page-fade">
             <Routes>
@@ -300,211 +292,6 @@ function App() {
         </main>
       </div>
     </BrowserRouter>
-  );
-}
-
-/* ---------------- NAVIGATION ---------------- */
-function Navigation() {
-  const { auth, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const homeRoute =
-    auth?.user?.role === "student"
-      ? "/student"
-      : auth?.user?.role === "instructor"
-        ? "/instructor"
-        : auth?.user?.role === "admin"
-          ? "/admin"
-          : "/";
-
-  const showBackButton =
-    auth?.user && !["/", "/register", homeRoute].includes(location.pathname);
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
-  const isActivePath = (path) => {
-    if (!path) return false;
-    if (path === "/student" || path === "/instructor" || path === "/admin") {
-      return location.pathname === path;
-    }
-    return location.pathname.startsWith(path);
-  };
-
-  const baseNavBtn =
-    "inline-flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold tracking-wide transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-sky-400";
-
-  const pillGhost =
-    baseNavBtn +
-    " text-slate-100/80 hover:text-white hover:bg-white/10 border border-transparent";
-  const pillPrimary =
-    baseNavBtn +
-    " bg-white text-slate-900 hover:bg-slate-100 shadow-sm border border-slate-200";
-  const pillDanger =
-    baseNavBtn +
-    " bg-slate-800/70 text-rose-100 hover:bg-rose-600 hover:text-white border border-rose-500/60";
-  const pillAccent =
-    baseNavBtn +
-    " bg-emerald-500/90 text-white hover:bg-emerald-400 border border-emerald-400/80";
-
-  return (
-    <nav className="fixed top-0 inset-x-0 z-40 border-b border-slate-800/80 bg-slate-950/90 backdrop-blur">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
-        {/* Brand + Back */}
-        <div className="flex items-center gap-3">
-          {showBackButton && (
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className={`${baseNavBtn} hidden sm:inline-flex bg-slate-800/80 text-slate-100 hover:bg-slate-700 border border-slate-600/60`}
-            >
-              <span className="mr-1.5 text-sm">←</span>
-              Back
-            </button>
-          )}
-
-          <Link
-            to={homeRoute}
-            className="inline-flex items-center gap-1.5 text-lg font-semibold tracking-tight text-white"
-          >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 shadow-md">
-              <span className="text-sm font-bold">E</span>
-            </span>
-            <span>EduNex</span>
-          </Link>
-        </div>
-
-        {/* Mobile menu toggle */}
-        <button
-          onClick={() => setMenuOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center rounded-full p-1.5 text-slate-200 hover:bg-white/10"
-        >
-          <span className="sr-only">Toggle navigation</span>
-          {menuOpen ? "✕" : "☰"}
-        </button>
-
-        {/* Right side links */}
-        <div
-          className={`${
-            menuOpen ? "flex" : "hidden"
-          } md:flex flex-col md:flex-row md:items-center gap-2 md:gap-3 text-xs`}
-        >
-          {!auth.user && (
-            <>
-              <Link to="/register" className={pillGhost}>
-                Sign up
-              </Link>
-              <Link to="/login" className={pillPrimary}>
-                Log in
-              </Link>
-            </>
-          )}
-
-          {auth.user && (
-            <>
-              {/* Role-specific main entry points */}
-              <Link
-                to="/profile"
-                className={`${pillGhost} ${
-                  isActivePath("/profile")
-                    ? "bg-white/10 border-sky-400/70"
-                    : ""
-                }`}
-              >
-                Profile
-              </Link>
-
-              {auth.user.role === "student" && (
-                <>
-                  <Link
-                    to="/student"
-                    className={`${pillPrimary} ${
-                      isActivePath("/student") ? "ring-1 ring-sky-400/80" : ""
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/student/courses"
-                    className={`${pillGhost} ${
-                      isActivePath("/student/courses")
-                        ? "bg-white/10 border-sky-400/70"
-                        : ""
-                    }`}
-                  >
-                    Browse Courses
-                  </Link>
-                </>
-              )}
-
-              {auth.user.role === "instructor" && (
-                <>
-                  <Link
-                    to="/instructor"
-                    className={`${pillPrimary} ${
-                      isActivePath("/instructor")
-                        ? "ring-1 ring-sky-400/80"
-                        : ""
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
-
-                  {/* <Link
-                    to="/instructor/consultations/schedule"
-                    className={`${pillGhost} ${
-                      isActivePath("/instructor/consultations")
-                        ? "bg-white/10 border-emerald-400/60"
-                        : ""
-                    }`}
-                  >
-                    Manage Consultations
-                  </Link> */}
-
-                  {/* <Link
-                    to="/instructor/consultations/today"
-                    className={`${pillAccent} ${
-                      isActivePath("/instructor/consultations/today")
-                        ? "ring-1 ring-emerald-300/80"
-                        : ""
-                    }`}
-                  >
-                    Today&apos;s Consultations
-                  </Link> */}
-                </>
-              )}
-
-              {auth.user.role === "admin" && (
-                <Link
-                  to="/admin"
-                  className={`${pillPrimary} ${
-                    isActivePath("/admin") ? "ring-1 ring-rose-400/80" : ""
-                  }`}
-                >
-                  Admin Dashboard
-                </Link>
-              )}
-
-              {/* Notifications + Logout */}
-              <div className="flex items-center gap-2">
-                <NotificationsDropdown />
-                <button
-                  onClick={handleLogout}
-                  className={pillDanger}
-                  type="button"
-                >
-                  Logout
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </nav>
   );
 }
 
